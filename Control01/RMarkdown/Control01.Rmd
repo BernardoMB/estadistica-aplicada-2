@@ -6,10 +6,13 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
+#install.packages("rmarkdown")
+# Printing tables
+#install.packages("knitr")
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = TRUE)
 # Create beautiful graphs
-#install.packages("ggplot")
+#install.packages("ggplot2")
 library(ggplot2)
 # TeX expressions in graphs labels
 #install.packages("latex2exp")
@@ -171,9 +174,17 @@ grid.arrange(
 A continuacion se muestra una serie de diagramas de dispersion y la recta que mejor se ajusta a los datos.
 
 ```{r edu_diagramas, echo=FALSE, fig.width=5, fig.height=5, fig.align = "center"}
+# Relaciones a pares:
+# Ingreso vs Educacion
+# Mujeres vs Educacion
+# Prestigio vs Educacion
+# Ingreso vs Mujeres
+# Prestigio vs Ingreso
+# Prestigio vs Mujeres
+
 # Ingreso vs Educacion
 # Regresion
-datos.lm <- lm(ingreso ~ educacion, data = df)
+datos.lm <- lm(data = df, ingreso ~ educacion)
 # Extraer los coeficientes de regresion.
 coeffs = coefficients(datos.lm);
 intercept <- as.numeric(coeffs[1])
