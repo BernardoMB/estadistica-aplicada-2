@@ -1,0 +1,9 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+/Control01/RMarkdown/Control01_cache
+/Control01/RMarkdown/Control01_files
+/Control01/RMarkdown/Control01.pdf
+
+.RData
+
+.RHistory
