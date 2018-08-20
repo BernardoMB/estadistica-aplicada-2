@@ -14,6 +14,12 @@ library(ggplot2)
 # TeX expressions in graphs labels
 #install.packages("latex2exp")
 library(latex2exp)
+# Title on multiple plots
+#install.packages("grid")
+library(grid)
+# Assemble multiple plots on a page
+#install.packages("gridExtra")
+library(gridExtra)
 
 # Color?
 colorImp <- TRUE
@@ -22,13 +28,146 @@ moradito <- "#be58a0"
 azulito <- "#00e6e6"
 ```
 
+
+Se tratara de determinar la relacion estadistica que existe entre el prestigio de diferentes ocupaciones y ciertas variables asociadas a dichas ocupaciones. Las variables son las siguientes: 
+
+\begin{itemize}
+  \item Educacion: Nivel educativo promedio de la ocupacion, en 1971
+  \item Ingreso: Ingreso promedio de la ocupacion,expresado en dolares, en 1971
+  \item Mujeres: Porcentaje de mujeres por ocupacion
+  \item Prestigio: Calificacion del prestigio de la ocupacion segun Pineo-Porter
+  \item Censo: Clave de la ocupacion en el Censo
+  \item Tipo: Tipo de ocupacion: obrero (bc), profesional, gerencial y tecnico (prof), oficinista (wc)
+\end{itemize}
+
 \section{Analisis exploratorio de los datos}
 
-A continuacion se muestan box plots de todas las variables con las que se hará el analisis.
+La informacion tiene el siguinete aspecto: 
 
-```{r cars, echo=FALSE}
+```{r aspecto, echo=FALSE}
 # Leer la informacion
-df = read.csv("../Data.csv", sep='', header = TRUE)
-    
-
+df = read.csv("../Data.csv", sep="", header = TRUE)
+library(knitr)
+kable(head(df), caption = "Primeros 6 registros sobre el Prestigio de la Ocupacion en Canada (Censo Poblacional de Canada, 1971).")
 ```
+
+A continuacion se muestra un resumen de cada una de las variables:
+
+```{r resumenes, echo=FALSE}
+education_summary <-data.frame(unclass(summary(df$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
+names(education_summary) <- c("Educacion")
+
+income_summary <-data.frame(unclass(summary(df$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
+names(income_summary) <- c("Ingreso")
+
+women_summary <-data.frame(unclass(summary(df$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
+names(women_summary) <- c("Mujeres")
+
+prestige_summary <-data.frame(unclass(summary(df$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
+names(prestige_summary) <- c("Prestigio")
+
+kable(list(education_summary, income_summary, women_summary, prestige_summary))
+```
+
+```{r boxplots, echo=FALSE, fig.width=5, fig.height=5, fig.align = "center"}
+# Educacion
+edu_bxplt <- ggplot(data = df, aes(x = "", y = educacion)) + 
+  geom_boxplot() +
+  ylim(0, max(df$educacion)) +
+  labs(x = "", y = "") +
+  ggtitle("Educacion") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Ingreso
+ing_bxplt <- ggplot(data = df, aes(x = "", y = ingreso)) + 
+  geom_boxplot() +
+  ylim(0, max(df$ingreso)) +
+  labs(x = "", y = "") +
+  ggtitle("Ingreso") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Mujeres
+muj_bxplt <- ggplot(data = df, aes(x = "", y = mujeres)) + 
+  geom_boxplot() +
+  ylim(0, max(df$mujeres)) +
+  labs(x = "", y = "") +
+  ggtitle("Mujeres") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Prestigio
+prest_bxplt <- ggplot(data = df, aes(x = "", y = prestigio)) + 
+  geom_boxplot() +
+  ylim(0, max(df$prestigio)) +
+  labs(x = "", y = "") +
+  ggtitle("Prestigio") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+grid.arrange(
+  edu_bxplt,
+  ing_bxplt,
+  muj_bxplt,
+  prest_bxplt,
+  nrow = 2,
+  top = textGrob("Boxplots", gp = gpar(fontsize = 15, font = 8)))
+```
+
+La informacion se puede agrupar de acuerdo al tipo de profesion. A continuacion se muestra un resumen de la informacion agrupada:
+
+```{r boxplots_grp, echo=FALSE, fig.width=8, fig.height=10, fig.align = "center"}
+# Make sure tipo is converted as a factor variable
+#df$tipo <- as.factor(df$tipo)
+#head(df)
+
+# Educacion
+edu_bxplt_g <- ggplot(df, aes(x = tipo, y = educacion)) +
+  geom_boxplot() + 
+  ylim(0, max(df$educacion)) +
+  labs(x = "Tipo", y = "Educacion") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Ingreso
+ing_bxplt_g <- ggplot(df, aes(x = tipo, y = ingreso)) +
+  geom_boxplot() + 
+  ylim(0, max(df$ingreso)) +
+  labs(x = "Tipo", y = "Ingreso") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Mujeres
+muj_bxplt_g <- ggplot(df, aes(x = tipo, y = mujeres)) +
+  geom_boxplot() + 
+  ylim(0, max(df$mujeres)) +
+  labs(x = "Tipo", y = "Mujeres") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+
+# Prestigio
+prest_bxplt_g <- ggplot(df, aes(x = tipo, y = prestigio)) +
+  geom_boxplot() + 
+  ylim(0, max(df$prestigio)) +
+  labs(x = "Tipo", y = "Prestigio") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
+  stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
+  
+grid.arrange(
+  edu_bxplt_g,
+  ing_bxplt_g,
+  muj_bxplt_g,
+  prest_bxplt_g,
+  nrow = 4,
+  top = textGrob("Boxplots agrupando por tipo", gp = gpar(fontsize = 15, font = 8)))
+```
+
+
+
+
+
+
+
+
+
