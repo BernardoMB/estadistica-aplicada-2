@@ -51,6 +51,8 @@ library(knitr)
 kable(head(df), caption = "Primeros 6 registros sobre el Prestigio de la Ocupacion en Canada (Censo Poblacional de Canada, 1971).")
 ```
 
+\subsection{Las variables}
+
 A continuacion se muestra un resumen de cada una de las variables:
 
 ```{r resumenes, echo=FALSE}
@@ -160,7 +162,232 @@ grid.arrange(
   muj_bxplt_g,
   prest_bxplt_g,
   nrow = 4,
-  top = textGrob("Boxplots agrupando por tipo", gp = gpar(fontsize = 15, font = 8)))
+  top = textGrob("Boxplots agrupando por tipo", gp = gpar(fontsize = 15, font = 8))
+)
+```
+
+\subsection{Relaciones a pares entre las variables}
+
+A continuacion se muestra una serie de diagramas de dispersion y la recta que mejor se ajusta a los datos.
+
+```{r edu_diagramas, echo=FALSE, fig.width=5, fig.height=5, fig.align = "center"}
+# Ingreso vs Educacion
+# Regresion
+datos.lm <- lm(ingreso ~ educacion, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$educacion)) {
+    sum = sum + df$educacion[i]    
+  }
+  sum/length(df$educacion)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$ingreso)) {
+    sum = sum + df$ingreso[i]    
+  }
+  sum/length(df$ingreso)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = ingreso)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Educacion (x)", y = "Ingreso (y)")
+ing_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Ingreso - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+# Mujeres vs Educacion
+# Hacer la regresion.
+datos.lm <- lm(mujeres ~ educacion, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$educacion)) {
+    sum = sum + df$educacion[i]    
+  }
+  sum/length(df$educacion)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$mujeres)) {
+    sum = sum + df$mujeres[i]    
+  }
+  sum/length(df$mujeres)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = mujeres)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Educacion (x)", y = "Mujeres (y)")
+muj_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Mujeres - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+# Prestigio vs Educacion
+# Hacer la regresion.
+datos.lm <- lm(prestigio ~ educacion, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$educacion)) {
+    sum = sum + df$educacion[i]    
+  }
+  sum/length(df$educacion)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$prestigio)) {
+    sum = sum + df$prestigio[i]    
+  }
+  sum/length(df$prestigio)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = prestigio)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Educacion (x)", y = "Prestigio (y)")
+pres_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+# Ingreso vs Mujeres
+# Hacer la regresion.
+datos.lm <- lm(ingreso ~ mujeres, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$mujeres)) {
+    sum = sum + df$mujeres[i]    
+  }
+  sum/length(df$mujeres)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$ingreso)) {
+    sum = sum + df$ingreso[i]    
+  }
+  sum/length(df$ingreso)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = mujeres, y = ingreso)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Mujeres (x)", y = "Ingreso (y)")
+ing_vs_muj <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Ingreso - Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+# Prestigio vs Ingreso
+# Hacer la regresion.
+datos.lm <- lm(prestigio ~ ingreso, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$ingreso)) {
+    sum = sum + df$ingreso[i]    
+  }
+  sum/length(df$ingreso)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$prestigio)) {
+    sum = sum + df$prestigio[i]    
+  }
+  sum/length(df$prestigio)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = ingreso, y = prestigio)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Ingreso (x)", y = "Prestigio (y)")
+pres_vs_ing <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Ingreso") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+# Prestigio vs Mujeres
+# Hacer la regresion.
+datos.lm <- lm(prestigio ~ mujeres, data = df)
+# Extraer los coeficientes de regresion.
+coeffs = coefficients(datos.lm);
+intercept <- as.numeric(coeffs[1])
+slope <- as.numeric(coeffs[2])
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$mujeres)) {
+    sum = sum + df$mujeres[i]    
+  }
+  sum/length(df$mujeres)
+}
+# Y bar 
+y.bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$prestigio)) {
+    sum = sum + df$prestigio[i]    
+  }
+  sum/length(df$prestigio)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter.plot <- ggplot(data = df, mapping = aes(x = mujeres, y = prestigio)) + geom_point()
+y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
+x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
+OLS.plot <- stat_function(fun = mean_given_x)
+labels <- labs(x = "Mujeres (x)", y = "Prestigio (y)")
+pres_vs_ing <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+
+grid.arrange(
+  ing_vs_edu,
+  muj_vs_edu,
+  pres_vs_edu,
+  ing_vs_muj,
+  pres_vs_ing,
+  pres_vs_ing,
+  widths = c(1, 1),
+  layout_matrix = rbind(c(1, 2),
+                        c(3, 4),
+                        c(5, 6))
+)
+
 ```
 
 
