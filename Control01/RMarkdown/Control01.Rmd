@@ -1,8 +1,11 @@
 ---
 title: "Control 1"
-author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
+author: "Bernardo MondragÃƒÂ³n Brozon, Sebastian Gonzalez"
 date: "August 28, 2018"
-output: pdf_document
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -40,7 +43,7 @@ Se tratara de determinar la relacion estadistica que existe entre el prestigio d
   \item Tipo: Tipo de ocupacion: obrero (bc), profesional, gerencial y tecnico (prof), oficinista (wc)
 \end{itemize}
 
-\section{Analisis exploratorio de los datos}
+\section{Analisis exploratorio de datos}
 
 La informacion tiene el siguinete aspecto: 
 
@@ -51,24 +54,28 @@ library(knitr)
 kable(head(df), caption = "Primeros 6 registros sobre el Prestigio de la Ocupacion en Canada (Censo Poblacional de Canada, 1971).")
 ```
 
-\subsection{Las variables}
+\subsection{Clasificacion de las variables}
+
+Variables cuantitativas | Variables cualitativas | Variables continuas | Variables discretas
+------------- | ------------- | ---------- | ---------
+Educacion | Ocupacion | Educacion |
+Ingreso | Censo | Ingreso |
+Mujeres | Tipo | Mujeres |
+Prestigio | | Prestigio |
+Table: Clasificacion de las variables
+
+\subsection{Resumen de las variables}
 
 A continuacion se muestra un resumen de cada una de las variables:
 
 ```{r resumenes, echo=FALSE}
 education_summary <-data.frame(unclass(summary(df$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
-names(education_summary) <- c("Educacion")
-
 income_summary <-data.frame(unclass(summary(df$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
-names(income_summary) <- c("Ingreso")
-
 women_summary <-data.frame(unclass(summary(df$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
-names(women_summary) <- c("Mujeres")
-
 prestige_summary <-data.frame(unclass(summary(df$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
-names(prestige_summary) <- c("Prestigio")
-
-kable(list(education_summary, income_summary, women_summary, prestige_summary))
+summaries <- cbind(education_summary, income_summary, women_summary, prestige_summary)
+names(summaries) <- c("Educacion", "Ingreso", "Mujeres", "Prestigio")
+kable(summaries, caption = "Resumenes de las variables.")
 ```
 
 ```{r boxplots, echo=FALSE, fig.width=5, fig.height=5, fig.align = "center"}
@@ -114,10 +121,61 @@ grid.arrange(
   muj_bxplt,
   prest_bxplt,
   nrow = 2,
-  top = textGrob("Boxplots", gp = gpar(fontsize = 15, font = 8)))
+  top = textGrob("", gp = gpar(fontsize = 15, font = 8)))
 ```
 
 La informacion se puede agrupar de acuerdo al tipo de profesion. A continuacion se muestra un resumen de la informacion agrupada:
+
+
+\textbf{Educacion}
+
+```{r educacion_g, echo = FALSE}
+educacion_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
+educacion_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
+educacion_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
+educacion_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
+educacion_summaries <- cbind(educacion_na_summary, educacion_bc_summary, educacion_prof_summary, educacion_wc_summary)
+names(educacion_summaries) <- c("NA", "bc", "prof", "wc")
+kable(educacion_summaries, caption = "Resumen de educacion por tipo de ocupacion.")
+```
+
+\textbf{Ingreso}
+
+```{r ingreso_g, echo = FALSE}
+ingreso_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
+ingreso_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
+ingreso_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
+ingreso_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
+ingreso_summaries <- cbind(ingreso_na_summary, ingreso_bc_summary, ingreso_prof_summary, ingreso_wc_summary)
+names(ingreso_summaries) <- c("NA", "bc", "prof", "wc")
+kable(ingreso_summaries, caption = "Resumen de ingreso por tipo de ocupacion.")
+```
+
+\textbf{Mujeres}
+
+```{r mujeres_g, echo = FALSE}
+mujeres_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
+mujeres_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
+mujeres_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
+mujeres_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
+mujeres_summaries <- cbind(mujeres_na_summary, mujeres_bc_summary, mujeres_prof_summary, mujeres_wc_summary)
+names(mujeres_summaries) <- c("NA", "bc", "prof", "wc")
+kable(mujeres_summaries, caption = "Resumen de mujeres por tipo de ocupacion.")
+```
+
+\textbf{Prestigio}
+
+```{r prestigio_g, echo = FALSE}
+prestigio_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
+prestigio_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
+prestigio_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
+prestigio_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
+prestigio_summaries <- cbind(prestigio_na_summary, prestigio_bc_summary, prestigio_prof_summary, prestigio_wc_summary)
+names(prestigio_summaries) <- c("NA", "bc", "prof", "wc")
+kable(prestigio_summaries, caption = "Resumen de prestigio por tipo de ocupacion.")
+```
+
+
 
 ```{r boxplots_grp, echo=FALSE, fig.width=8, fig.height=10, fig.align = "center"}
 # Make sure tipo is converted as a factor variable
@@ -162,7 +220,7 @@ grid.arrange(
   muj_bxplt_g,
   prest_bxplt_g,
   nrow = 4,
-  top = textGrob("Boxplots agrupando por tipo", gp = gpar(fontsize = 15, font = 8))
+  top = textGrob("Variables agrupadas por tipo de ocupacion", gp = gpar(fontsize = 15, font = 8))
 )
 ```
 
@@ -170,18 +228,32 @@ grid.arrange(
 
 A continuacion se muestra una serie de diagramas de dispersion y la recta que mejor se ajusta a los datos.
 
-```{r edu_diagramas, echo=FALSE, fig.width=5, fig.height=5, fig.align = "center"}
+```{r edu_diagramas, echo=FALSE, fig.width=8, fig.height=10, fig.align = "center"}
+# Variables:
+# Educacion
+# Ingreso
+# Muejres
+# Prestigio
+
+# Relaciones a pares:
+# Ingreso vs. Educacion
+# Mujeres vs. Educacion
+# Prestigio vs. Educacion
+# Ingreso vs. Mujeres
+# Prestigio vs. Ingreso
+# Restigio vs. Mujeres
+
 # Ingreso vs Educacion
 # Regresion
-datos.lm <- lm(ingreso ~ educacion, data = df)
-# Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+linearModel_ing_edu <- lm(ingreso ~ educacion, data = df)
+# Extraer los coeficientes de regresion
+coeffs_ing_edu = coefficients(linearModel_ing_edu)
+intercept_ing_edu <- coeffs_ing_edu[[1]]
+slope_ing_edu <- coeffs_ing_edu[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_ing_edu <- function(x) intercept_ing_edu + x * slope_ing_edu
 # X bar 
-x.bar <- function() {
+x_bar_ing_edu <- function() {
   sum <- 0
   for (i in 1:length(df$educacion)) {
     sum = sum + df$educacion[i]    
@@ -189,7 +261,7 @@ x.bar <- function() {
   sum/length(df$educacion)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_ing_edu <- function() {
   sum <- 0
   for (i in 1:length(df$ingreso)) {
     sum = sum + df$ingreso[i]    
@@ -198,24 +270,24 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = ingreso)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Educacion (x)", y = "Ingreso (y)")
-ing_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Ingreso - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_ing_edu <- ggplot(data = df, mapping = aes(x = educacion, y = ingreso)) + geom_point(color = moradito)
+y_bar_plot_ing_edu <- geom_hline(aes(yintercept = y_bar_ing_edu()))
+x_bar_plot_ing_edu <- geom_vline(aes(xintercept = x_bar_ing_edu()))
+ols_plot_ing_edu <- stat_function(fun = mean_given_x_ing_edu, size = 1)
+labels_ing_edu <- labs(x = "Educacion", y = "Ingreso")
+ing_vs_edu <- scatter_plot_ing_edu + y_bar_plot_ing_edu + x_bar_plot_ing_edu + ols_plot_ing_edu + labels_ing_edu + ggtitle("Ingreso vs. Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Mujeres vs Educacion
 # Hacer la regresion.
-datos.lm <- lm(mujeres ~ educacion, data = df)
+linearModel_muj_edu <- lm(mujeres ~ educacion, data = df)
 # Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+coeffs_muj_edu = coefficients(linearModel_muj_edu);
+intercept_muj_edu <- coeffs_muj_edu[[1]]
+slope_muj_edu <- coeffs_muj_edu[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_muj_edu <- function(x) intercept_muj_edu + x * slope_muj_edu
 # X bar 
-x.bar <- function() {
+x_bar_muj_edu <- function() {
   sum <- 0
   for (i in 1:length(df$educacion)) {
     sum = sum + df$educacion[i]    
@@ -223,7 +295,7 @@ x.bar <- function() {
   sum/length(df$educacion)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_muj_edu <- function() {
   sum <- 0
   for (i in 1:length(df$mujeres)) {
     sum = sum + df$mujeres[i]    
@@ -232,24 +304,24 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = mujeres)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Educacion (x)", y = "Mujeres (y)")
-muj_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Mujeres - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_muj_edu <- ggplot(data = df, mapping = aes(x = educacion, y = mujeres)) + geom_point(color = moradito)
+y_bar_plot_muj_edu <- geom_hline(aes(yintercept = y_bar_muj_edu()))
+x_bar_plot_muj_edu <- geom_vline(aes(xintercept = x_bar_muj_edu()))
+ols_plot_muj_edu <- stat_function(fun = mean_given_x_muj_edu, size = 1)
+labels_muj_edu <- labs(x = "Educacion", y = "Mujeres")
+muj_vs_edu <- scatter_plot_muj_edu + y_bar_plot_muj_edu + x_bar_plot_muj_edu + ols_plot_muj_edu + labels_muj_edu + ggtitle("Mujeres vs. Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Prestigio vs Educacion
 # Hacer la regresion.
-datos.lm <- lm(prestigio ~ educacion, data = df)
+linearModel_pres_edu <- lm(prestigio ~ educacion, data = df)
 # Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+coeffs_pres_edu = coefficients(linearModel_pres_edu);
+intercept_pres_edu <- coeffs_pres_edu[[1]]
+slope_pres_edu <- coeffs_pres_edu[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_pres_edu <- function(x) intercept_pres_edu + x * slope_pres_edu
 # X bar 
-x.bar <- function() {
+x_bar_pres_edu <- function() {
   sum <- 0
   for (i in 1:length(df$educacion)) {
     sum = sum + df$educacion[i]    
@@ -257,7 +329,7 @@ x.bar <- function() {
   sum/length(df$educacion)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_pres_edu <- function() {
   sum <- 0
   for (i in 1:length(df$prestigio)) {
     sum = sum + df$prestigio[i]    
@@ -266,24 +338,24 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = educacion, y = prestigio)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Educacion (x)", y = "Prestigio (y)")
-pres_vs_edu <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_pres_edu <- ggplot(data = df, mapping = aes(x = educacion, y = prestigio)) + geom_point(color = moradito)
+y_bar_plot_pres_edu <- geom_hline(aes(yintercept = y_bar_pres_edu()))
+x_bar_plot_pres_edu <- geom_vline(aes(xintercept = x_bar_pres_edu()))
+ols_plot_pres_edu <- stat_function(fun = mean_given_x_pres_edu, size = 1)
+labels_pres_edu <- labs(x = "Educacion", y = "Prestigio")
+pres_vs_edu <- scatter_plot_pres_edu + y_bar_plot_pres_edu + x_bar_plot_pres_edu + ols_plot_pres_edu + labels_pres_edu + ggtitle("Prestigio vs. Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Ingreso vs Mujeres
 # Hacer la regresion.
-datos.lm <- lm(ingreso ~ mujeres, data = df)
+linearModel_ing_muj <- lm(ingreso ~ mujeres, data = df)
 # Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+coeffs_ing_muj = coefficients(linearModel_ing_muj);
+intercept_ing_muj <- coeffs_ing_muj[[1]]
+slope_ing_muj <- coeffs_ing_muj[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_ing_muj <- function(x) intercept_ing_muj + x * slope_ing_muj
 # X bar 
-x.bar <- function() {
+x_bar_ing_muj <- function() {
   sum <- 0
   for (i in 1:length(df$mujeres)) {
     sum = sum + df$mujeres[i]    
@@ -291,7 +363,7 @@ x.bar <- function() {
   sum/length(df$mujeres)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_ing_muj <- function() {
   sum <- 0
   for (i in 1:length(df$ingreso)) {
     sum = sum + df$ingreso[i]    
@@ -300,24 +372,24 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = mujeres, y = ingreso)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Mujeres (x)", y = "Ingreso (y)")
-ing_vs_muj <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Ingreso - Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_ing_muj <- ggplot(data = df, mapping = aes(x = mujeres, y = ingreso)) + geom_point(color = moradito)
+y_bar_plot_ing_muj <- geom_hline(aes(yintercept = y_bar_ing_muj()))
+x_bar_plot_ing_muj <- geom_vline(aes(xintercept = x_bar_ing_muj()))
+ols_plot_ing_muj <- stat_function(fun = mean_given_x_ing_muj, size = 1)
+labels_ing_muj <- labs(x = "Mujeres", y = "Ingreso")
+ing_vs_muj <- scatter_plot_ing_muj + y_bar_plot_ing_muj + x_bar_plot_ing_muj + ols_plot_ing_muj + labels_ing_muj + ggtitle("Ingreso vs. Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Prestigio vs Ingreso
 # Hacer la regresion.
-datos.lm <- lm(prestigio ~ ingreso, data = df)
+linearModel_pres_ing <- lm(prestigio ~ ingreso, data = df)
 # Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+coeffs_pres_ing = coefficients(linearModel_pres_ing);
+intercept_pres_ing <- coeffs_pres_ing[[1]]
+slope_pres_ing <- coeffs_pres_ing[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_pres_ing <- function(x) intercept_pres_ing + x * slope_pres_ing
 # X bar 
-x.bar <- function() {
+x_bar_pres_ing <- function() {
   sum <- 0
   for (i in 1:length(df$ingreso)) {
     sum = sum + df$ingreso[i]    
@@ -325,7 +397,7 @@ x.bar <- function() {
   sum/length(df$ingreso)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_pres_ing <- function() {
   sum <- 0
   for (i in 1:length(df$prestigio)) {
     sum = sum + df$prestigio[i]    
@@ -334,24 +406,24 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = ingreso, y = prestigio)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Ingreso (x)", y = "Prestigio (y)")
-pres_vs_ing <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Ingreso") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_pres_ing <- ggplot(data = df, mapping = aes(x = ingreso, y = prestigio)) + geom_point(color = moradito)
+y_bar_plot_pres_ing <- geom_hline(aes(yintercept = y_bar_pres_ing()))
+x_bar_plot_pres_ing <- geom_vline(aes(xintercept = x_bar_pres_ing()))
+ols_plot_pres_ing <- stat_function(fun = mean_given_x_pres_ing, size = 1)
+labels_pres_ing <- labs(x = "Ingreso", y = "Prestigio")
+pres_vs_ing <- scatter_plot_pres_ing + y_bar_plot_pres_ing + x_bar_plot_pres_ing + ols_plot_pres_ing + labels_pres_ing + ggtitle("Prestigio vs. Ingreso") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Prestigio vs Mujeres
 # Hacer la regresion.
-datos.lm <- lm(prestigio ~ mujeres, data = df)
+linearModel_pres_muj <- lm(prestigio ~ mujeres, data = df)
 # Extraer los coeficientes de regresion.
-coeffs = coefficients(datos.lm);
-intercept <- as.numeric(coeffs[1])
-slope <- as.numeric(coeffs[2])
+coeffs_pres_muj = coefficients(linearModel_pres_muj);
+intercept_pres_muj <- coeffs_pres_muj[[1]]
+slope_pres_muj <- coeffs_pres_muj[[2]]
 # Ecuacion de regresion lineal.
-mean_given_x <- function(x) intercept + x * slope
+mean_given_x_pres_muj <- function(x) intercept_pres_muj + x * slope_pres_muj
 # X bar 
-x.bar <- function() {
+x_bar_pres_muj <- function() {
   sum <- 0
   for (i in 1:length(df$mujeres)) {
     sum = sum + df$mujeres[i]    
@@ -359,7 +431,7 @@ x.bar <- function() {
   sum/length(df$mujeres)
 }
 # Y bar 
-y.bar <- function() {
+y_bar_pres_muj <- function() {
   sum <- 0
   for (i in 1:length(df$prestigio)) {
     sum = sum + df$prestigio[i]    
@@ -368,12 +440,12 @@ y.bar <- function() {
 }
 # Grafica de dispersion y recta de regresion.
 # See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
-scatter.plot <- ggplot(data = df, mapping = aes(x = mujeres, y = prestigio)) + geom_point()
-y.bar.plot <- geom_hline(aes(yintercept = y.bar()))
-x.bar.plot <- geom_vline(aes(xintercept = x.bar()))
-OLS.plot <- stat_function(fun = mean_given_x)
-labels <- labs(x = "Mujeres (x)", y = "Prestigio (y)")
-pres_vs_ing <- scatter.plot + y.bar.plot + x.bar.plot + OLS.plot + labels + ggtitle("Prestigio - Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_pres_muj <- ggplot(data = df, mapping = aes(x = mujeres, y = prestigio)) + geom_point(color = moradito)
+y_bar_plot_pres_muj <- geom_hline(aes(yintercept = y_bar_pres_muj()))
+x_bar_plot_pres_muj <- geom_vline(aes(xintercept = x_bar_pres_muj()))
+ols_plot_pres_muj <- stat_function(fun = mean_given_x_pres_muj, size = 1)
+labels_pres_muj <- labs(x = "Mujeres", y = "Prestigio")
+pres_vs_muj <- scatter_plot_pres_muj + y_bar_plot_pres_muj + x_bar_plot_pres_muj + ols_plot_pres_muj + labels_pres_muj + ggtitle("Prestigio vs. Mujeres") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 grid.arrange(
   ing_vs_edu,
@@ -381,7 +453,7 @@ grid.arrange(
   pres_vs_edu,
   ing_vs_muj,
   pres_vs_ing,
-  pres_vs_ing,
+  pres_vs_muj,
   widths = c(1, 1),
   layout_matrix = rbind(c(1, 2),
                         c(3, 4),
