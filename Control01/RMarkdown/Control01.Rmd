@@ -1,6 +1,6 @@
 ---
 title: "Control 1"
-author: "Bernardo MondragÃƒÂ³n Brozon, Sebastian Gonzalez"
+author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
 date: "August 28, 2018"
 output:
   pdf_document: default
@@ -32,41 +32,41 @@ azulito <- "#00e6e6"
 ```
 
 
-Se tratara de determinar la relacion estadistica que existe entre el prestigio de diferentes ocupaciones y ciertas variables asociadas a dichas ocupaciones. Las variables son las siguientes: 
+Se tratará de determinar la relación estadística que existe entre el prestigio de diferentes ocupaciónes y ciertas variables asociadas a dichas ocupaciónes. Las variables son las siguientes: 
 
 \begin{itemize}
-  \item Educacion: Nivel educativo promedio de la ocupacion, en 1971
-  \item Ingreso: Ingreso promedio de la ocupacion,expresado en dolares, en 1971
-  \item Mujeres: Porcentaje de mujeres por ocupacion
-  \item Prestigio: Calificacion del prestigio de la ocupacion segun Pineo-Porter
-  \item Censo: Clave de la ocupacion en el Censo
-  \item Tipo: Tipo de ocupacion: obrero (bc), profesional, gerencial y tecnico (prof), oficinista (wc)
+  \item Educación: Nivel educativo promedio de la ocupación, en 1971.
+  \item Ingreso: Ingreso promedio de la ocupación, expresado en dolares, en 1971.
+  \item Mujeres: Porcentaje de mujeres por ocupación.
+  \item Prestigio: Calificación del prestigio de la ocupación según Pineo-Porter.
+  \item Censo: Clave de la ocupación en el Censo.
+  \item Tipo: Tipo de ocupación: obrero (bc), profesional, gerencial y técnico (prof), oficinista (wc).
 \end{itemize}
 
-\section{Analisis exploratorio de datos}
+\section{Análisis exploratorio de datos}
 
-La informacion tiene el siguinete aspecto: 
+La información tiene el siguinete aspecto: 
 
 ```{r aspecto, echo=FALSE}
-# Leer la informacion
+# Leer la información
 df = read.csv("../Data.csv", sep="", header = TRUE)
 library(knitr)
-kable(head(df), caption = "Primeros 6 registros sobre el Prestigio de la Ocupacion en Canada (Censo Poblacional de Canada, 1971).")
+kable(head(df), caption = "Primeros 6 registros sobre el Prestigio de la ocupación en Canada (Censo Poblacional de Canada, 1971).")
 ```
 
-\subsection{Clasificacion de las variables}
+\subsection{Clasificación de las variables}
 
 Variables cuantitativas | Variables cualitativas | Variables continuas | Variables discretas
 ------------- | ------------- | ---------- | ---------
-Educacion | Ocupacion | Educacion |
+Educación | Ocupación | Educación |
 Ingreso | Censo | Ingreso |
 Mujeres | Tipo | Mujeres |
 Prestigio | | Prestigio |
-Table: Clasificacion de las variables
+Table: Clasificación de las variables
 
 \subsection{Resumen de las variables}
 
-A continuacion se muestra un resumen de cada una de las variables:
+A continuación se muestra un resumen de cada una de las variables:
 
 ```{r resumenes, echo=FALSE}
 education_summary <-data.frame(unclass(summary(df$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
@@ -74,7 +74,7 @@ income_summary <-data.frame(unclass(summary(df$ingreso)), check.names = FALSE, s
 women_summary <-data.frame(unclass(summary(df$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
 prestige_summary <-data.frame(unclass(summary(df$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
 summaries <- cbind(education_summary, income_summary, women_summary, prestige_summary)
-names(summaries) <- c("Educacion", "Ingreso", "Mujeres", "Prestigio")
+names(summaries) <- c("Educación", "Ingreso", "Mujeres", "Prestigio")
 kable(summaries, caption = "Resumenes de las variables.")
 ```
 
@@ -84,7 +84,7 @@ edu_bxplt <- ggplot(data = df, aes(x = "", y = educacion)) +
   geom_boxplot() +
   ylim(0, max(df$educacion)) +
   labs(x = "", y = "") +
-  ggtitle("Educacion") +
+  ggtitle("Educación") +
   theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12)) +
   stat_summary(fun.y = mean, colour = moradito, geom = "point", shape = 18, size = 3)
 
@@ -124,10 +124,10 @@ grid.arrange(
   top = textGrob("", gp = gpar(fontsize = 15, font = 8)))
 ```
 
-La informacion se puede agrupar de acuerdo al tipo de profesion. A continuacion se muestra un resumen de la informacion agrupada:
+La información se puede agrupar de acuerdo al tipo de profesion. A continuación se muestra un resumen de la información agrupada:
 
 
-\textbf{Educacion}
+\textbf{Educación}
 
 ```{r educacion_g, echo = FALSE}
 educacion_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
@@ -136,7 +136,7 @@ educacion_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$educ
 educacion_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
 educacion_summaries <- cbind(educacion_na_summary, educacion_bc_summary, educacion_prof_summary, educacion_wc_summary)
 names(educacion_summaries) <- c("NA", "bc", "prof", "wc")
-kable(educacion_summaries, caption = "Resumen de educacion por tipo de ocupacion.")
+kable(educacion_summaries, caption = "Resumen de educación por tipo de ocupación.")
 ```
 
 \textbf{Ingreso}
@@ -148,7 +148,7 @@ ingreso_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$ingres
 ingreso_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
 ingreso_summaries <- cbind(ingreso_na_summary, ingreso_bc_summary, ingreso_prof_summary, ingreso_wc_summary)
 names(ingreso_summaries) <- c("NA", "bc", "prof", "wc")
-kable(ingreso_summaries, caption = "Resumen de ingreso por tipo de ocupacion.")
+kable(ingreso_summaries, caption = "Resumen de ingreso por tipo de ocupación.")
 ```
 
 \textbf{Mujeres}
@@ -160,7 +160,7 @@ mujeres_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$mujere
 mujeres_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
 mujeres_summaries <- cbind(mujeres_na_summary, mujeres_bc_summary, mujeres_prof_summary, mujeres_wc_summary)
 names(mujeres_summaries) <- c("NA", "bc", "prof", "wc")
-kable(mujeres_summaries, caption = "Resumen de mujeres por tipo de ocupacion.")
+kable(mujeres_summaries, caption = "Resumen de mujeres por tipo de ocupación.")
 ```
 
 \textbf{Prestigio}
@@ -172,7 +172,7 @@ prestigio_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$pres
 prestigio_wc_summary <-data.frame(unclass(summary(df[df$tipo == "wc", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
 prestigio_summaries <- cbind(prestigio_na_summary, prestigio_bc_summary, prestigio_prof_summary, prestigio_wc_summary)
 names(prestigio_summaries) <- c("NA", "bc", "prof", "wc")
-kable(prestigio_summaries, caption = "Resumen de prestigio por tipo de ocupacion.")
+kable(prestigio_summaries, caption = "Resumen de prestigio por tipo de ocupación.")
 ```
 
 
@@ -220,13 +220,13 @@ grid.arrange(
   muj_bxplt_g,
   prest_bxplt_g,
   nrow = 4,
-  top = textGrob("Variables agrupadas por tipo de ocupacion", gp = gpar(fontsize = 15, font = 8))
+  top = textGrob("Variables agrupadas por tipo de ocupación", gp = gpar(fontsize = 15, font = 8))
 )
 ```
 
 \subsection{Relaciones a pares entre las variables}
 
-A continuacion se muestra una serie de diagramas de dispersion y la recta que mejor se ajusta a los datos.
+A continuación se muestra una serie de diagramas de dispersión y la recta que mejor se ajusta a los datos.
 
 ```{r edu_diagramas, echo=FALSE, fig.width=8, fig.height=10, fig.align = "center"}
 # Variables:
@@ -274,8 +274,8 @@ scatter_plot_ing_edu <- ggplot(data = df, mapping = aes(x = educacion, y = ingre
 y_bar_plot_ing_edu <- geom_hline(aes(yintercept = y_bar_ing_edu()))
 x_bar_plot_ing_edu <- geom_vline(aes(xintercept = x_bar_ing_edu()))
 ols_plot_ing_edu <- stat_function(fun = mean_given_x_ing_edu, size = 1)
-labels_ing_edu <- labs(x = "Educacion", y = "Ingreso")
-ing_vs_edu <- scatter_plot_ing_edu + y_bar_plot_ing_edu + x_bar_plot_ing_edu + ols_plot_ing_edu + labels_ing_edu + ggtitle("Ingreso vs. Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+labels_ing_edu <- labs(x = "Educación", y = "Ingreso")
+ing_vs_edu <- scatter_plot_ing_edu + y_bar_plot_ing_edu + x_bar_plot_ing_edu + ols_plot_ing_edu + labels_ing_edu + ggtitle("Ingreso vs. Educación") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Mujeres vs Educacion
 # Hacer la regresion.
@@ -308,8 +308,8 @@ scatter_plot_muj_edu <- ggplot(data = df, mapping = aes(x = educacion, y = mujer
 y_bar_plot_muj_edu <- geom_hline(aes(yintercept = y_bar_muj_edu()))
 x_bar_plot_muj_edu <- geom_vline(aes(xintercept = x_bar_muj_edu()))
 ols_plot_muj_edu <- stat_function(fun = mean_given_x_muj_edu, size = 1)
-labels_muj_edu <- labs(x = "Educacion", y = "Mujeres")
-muj_vs_edu <- scatter_plot_muj_edu + y_bar_plot_muj_edu + x_bar_plot_muj_edu + ols_plot_muj_edu + labels_muj_edu + ggtitle("Mujeres vs. Educacion") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+labels_muj_edu <- labs(x = "Educación", y = "Mujeres")
+muj_vs_edu <- scatter_plot_muj_edu + y_bar_plot_muj_edu + x_bar_plot_muj_edu + ols_plot_muj_edu + labels_muj_edu + ggtitle("Mujeres vs. Educación") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
 
 # Prestigio vs Educacion
 # Hacer la regresion.
@@ -461,6 +461,8 @@ grid.arrange(
 )
 
 ```
+
+Se puede observar que existe un correlación positiva entre el nivel de educación y el prestigio que recibe la ocupación. 
 
 
 

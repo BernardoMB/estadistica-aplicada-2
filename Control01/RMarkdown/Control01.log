@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.5.13)  21 AUG 2018 13:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.5.13)  21 AUG 2018 20:45
 entering extended mode
 **./Control01.tex
 (Control01.tex
@@ -1021,49 +1021,49 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 89.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 96.
 ("C:\Users\bmond\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [1
 
 {C:/Users/bmond/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<Control01_files/figure-latex/boxplots-1.pdf, id=33, 361.35pt x 361.35pt>
+<Control01_files/figure-latex/boxplots-1.pdf, id=32, 361.35pt x 361.35pt>
 File: Control01_files/figure-latex/boxplots-1.pdf Graphic file (type pdf)
 <use Control01_files/figure-latex/boxplots-1.pdf>
 Package pdftex.def Info: Control01_files/figure-latex/boxplots-1.pdf  used on i
 nput line 223.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 [2 <./Control01_files/figure-latex/boxplots-1.pdf>]
-<Control01_files/figure-latex/boxplots_grp-1.pdf, id=46, 578.16pt x 722.7pt>
+<Control01_files/figure-latex/boxplots_grp-1.pdf, id=45, 578.16pt x 722.7pt>
 File: Control01_files/figure-latex/boxplots_grp-1.pdf Graphic file (type pdf)
 <use Control01_files/figure-latex/boxplots_grp-1.pdf>
 Package pdftex.def Info: Control01_files/figure-latex/boxplots_grp-1.pdf  used 
 on input line 312.
 (pdftex.def)             Requested size: 469.75385pt x 587.1923pt.
 [3]
-<Control01_files/figure-latex/edu_diagramas-1.pdf, id=54, 578.16pt x 722.7pt>
+<Control01_files/figure-latex/edu_diagramas-1.pdf, id=53, 578.16pt x 722.7pt>
 File: Control01_files/figure-latex/edu_diagramas-1.pdf Graphic file (type pdf)
 <use Control01_files/figure-latex/edu_diagramas-1.pdf>
 Package pdftex.def Info: Control01_files/figure-latex/edu_diagramas-1.pdf  used
  on input line 319.
 (pdftex.def)             Requested size: 469.75385pt x 587.1923pt.
 [4 <./Control01_files/figure-latex/boxplots_grp-1.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 322.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 325.
 [5 <./Control01_files/figure-latex/edu_diagramas-1.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 322.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 325.
 (Control01.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 322.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 322.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 325.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 325.
 Package rerunfilecheck Info: File `Control01.out' has not changed.
-(rerunfilecheck)             Checksum: 0E5A24D43C85F2ECD75A650F8F2418B3;862.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 322.
+(rerunfilecheck)             Checksum: F9C568BD1AA4E744CE95CCA389112B75;868.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 325.
  ) 
 Here is how much of TeX's memory you used:
- 12285 strings out of 493305
- 180212 string characters out of 3129802
- 286586 words of memory out of 3000000
- 15679 multiletter control sequences out of 15000+200000
- 31211 words of font info for 33 fonts, out of 3000000 for 9000
+ 12282 strings out of 493305
+ 180150 string characters out of 3129802
+ 286543 words of memory out of 3000000
+ 15675 multiletter control sequences out of 15000+200000
+ 30879 words of font info for 33 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  32i,6n,38p,306b,436s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/bmond/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.en
@@ -1074,9 +1074,9 @@ lmbx12.pfb><C:/Users/bmond/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
 /lm/lmr10.pfb><C:/Users/bmond/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
 lic/lm/lmr17.pfb><C:/Users/bmond/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
 public/lm/lmri12.pfb>
-Output written on Control01.pdf (5 pages, 193060 bytes).
+Output written on Control01.pdf (5 pages, 195035 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
+ 98 PDF objects out of 1000 (max. 8388607)
  17 named destinations out of 1000 (max. 500000)
  6192 words of extra memory for PDF output out of 10000 (max. 10000000)
 
