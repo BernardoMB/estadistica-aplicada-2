@@ -1,6 +1,6 @@
 ---
 title: "Control 2"
-author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
+author: "Bernardo Mondragón Brozon, Sebastian Gonzalez Arroyo"
 date: "August 28, 2018"
 output:
   pdf_document: default
@@ -69,4 +69,13 @@ x_bar_plot <- geom_vline(aes(xintercept = x_bar()))
 ols_plot <- stat_function(fun = mean_given_x, size = 1)
 labels <- labs(x = "Valor catastral", y = "Renta")
 plot <- scatter_plot + y_bar_plot + x_bar_plot + ols_plot + labels + ggtitle("Renta vs. Valor catastral") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+plot
+```
+
+El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ está dado por 
+$$  \hat{\beta_0}=`r intercept` $$
+El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora está dado por
+$$  \hat{\beta_1}=`r slope` $$
+A continuacion se muestran los residuales:
+```{r residuales, echo=FALSE}
 ```
