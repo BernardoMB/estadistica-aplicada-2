@@ -4,15 +4,14 @@ author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
 date: "August 28, 2018"
 output:
   pdf_document: default
-  html_document:
-    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = TRUE)
+# Output PDF file
 # Create beautiful graphs
-#install.packages("ggplot")
+#install.packages("ggplot2")
 library(ggplot2)
 # TeX expressions in graphs labels
 #install.packages("latex2exp")
