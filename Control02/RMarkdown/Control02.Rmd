@@ -1,0 +1,72 @@
+---
+title: "Control 2"
+author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
+date: "August 28, 2018"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE)
+# Create beautiful graphs
+#install.packages("ggplot")
+library(ggplot2)
+# TeX expressions in graphs labels
+#install.packages("latex2exp")
+library(latex2exp)
+# Title on multiple plots
+#install.packages("grid")
+library(grid)
+# Assemble multiple plots on a page
+#install.packages("gridExtra")
+library(gridExtra)
+
+# Color?
+colorImp <- TRUE
+# Colores chidos
+moradito <- "#be58a0"
+azulito <- "#00e6e6"
+```
+
+Modelo de regresion lineal simple ajustado por minimos cuadrados para la respuesta $renta$, con el $valor$ $catastral$ como variable independiente:
+
+```{r renta vs. valor catastral, echo = FALSE}
+# Leer la información
+df = read.csv("../Data.csv", sep="", header = TRUE)
+# Regresion
+# renta vs valor catastral
+linearModel <- lm(renta ~ valor, data = df)
+# Extraer los coeficientes de regresion
+coeffs <- coefficients(linearModel)
+intercept <- coeffs[[1]]
+slope <- coeffs[[2]]
+# Ecuacion de regresion lineal.
+mean_given_x <- function(x) intercept + x * slope
+# X bar 
+x_bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$valor)) {
+    sum = sum + df$valor[i]    
+  }
+  sum/length(df$valor)
+}
+# Y bar 
+y_bar <- function() {
+  sum <- 0
+  for (i in 1:length(df$renta)) {
+    sum = sum + df$renta[i]    
+  }
+  sum/length(df$renta)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter_plot <- ggplot(data = df, mapping = aes(x = valor, y = renta)) + geom_point(color = moradito)
+y_bar_plot <- geom_hline(aes(yintercept = y_bar()))
+x_bar_plot <- geom_vline(aes(xintercept = x_bar()))
+ols_plot <- stat_function(fun = mean_given_x, size = 1)
+labels <- labs(x = "Valor catastral", y = "Renta")
+plot <- scatter_plot + y_bar_plot + x_bar_plot + ols_plot + labels + ggtitle("Renta vs. Valor catastral") + theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+```
