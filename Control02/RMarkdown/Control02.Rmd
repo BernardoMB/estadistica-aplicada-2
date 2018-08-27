@@ -1,6 +1,6 @@
 ---
 title: "Control 2"
-author: "Bernardo MondragÃ³n Brozon, Sebastian Gonzalez Arroyo"
+author: "Bernardo Mondragón Brozon, Sebastián González Arroyo"
 date: "August 28, 2018"
 output:
   pdf_document: default
@@ -30,9 +30,9 @@ moradito <- "#be58a0"
 azulito <- "#00e6e6"
 ```
 
-Modelo de regresion lineal simple ajustado por minimos cuadrados para la respuesta $renta$, con el $valor$ $catastral$ como variable independiente:
+Modelo de regresión lineal simple ajustado por mínimos cuadrados para la respuesta $renta$, con el $valor$ $catastral$ como variable independiente:
 
-```{r renta vs. valor catastral, echo = FALSE}
+```{r renta vs. valor catastral, echo = FALSE, fig.width=3, fig.height=3, fig.align='center'}
 # Leer la informaciÃ³n
 df = read.csv("../Data.csv", sep="", header = TRUE)
 # Regresion
@@ -71,10 +71,120 @@ plot <- scatter_plot + y_bar_plot + x_bar_plot + ols_plot + labels + ggtitle("Re
 plot
 ```
 
-El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ estÃ¡ dado por 
+El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ está dado por 
 $$  \hat{\beta_0}=`r intercept` $$
-El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora estÃ¡ dado por
+El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora está dado por
 $$  \hat{\beta_1}=`r slope` $$
-A continuacion se muestran los residuales:
-```{r residuales, echo=FALSE}
+
+A continuación se muestran los residuales:
+
+```{r residuales, echo=FALSE, fig.width=3, fig.height=3, fig.align='center'}
+residuales <- linearModel$residuals
+df_residuals <- data.frame(df$valor, residuales)
+names(df_residuals) <- c("valor", "residuales")
+
+scatter_plot_residuals <- ggplot(data = df_residuals, mapping = aes(x = valor, y = residuales)) +
+  geom_point(color = moradito) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(x = "Valor catastral", y = "Residual") +
+  ggtitle("Residuales") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_residuals
 ```
+
+```{r p-value, echo = FALSE}
+lmp <- function (modelobject) {
+    if (class(modelobject) != "lm") stop("Not an object of class 'lm' ")
+    f <- summary(modelobject)$fstatistic
+    p <- pf(f[1],f[2],f[3],lower.tail=F)
+    attributes(p) <- NULL
+    return(p)
+}
+
+p_value <- lmp(linearModel)
+```
+
+La significancia de la regresión ($valor$ $p$) del estadístico $F$ está dada por
+$$  \alpha = `r p_value` $$
+
+Repitiendo el procedimiento anterior sin incluir las observaciones en las que la respuesta $renta$ es igual a $0$ se obtiene lo siguiente:
+
+```{r excluyendo y igual a cero, echo = FALSE, fig.width=3, fig.height=3, fig.align='center'}
+# Eliminar observaciones en las que renta es 0.
+df_new <- df[df$renta != 0, ]
+
+# renta vs valor catastral
+linearModel_new <- lm(renta ~ valor, data = df_new)
+# Extraer los coeficientes de regresion
+coeffs_new <- coefficients(linearModel_new)
+intercept_new <- coeffs_new[[1]]
+slope_new <- coeffs_new[[2]]
+# Ecuacion de regresion lineal.
+mean_given_x_new <- function(x) intercept_new + x * slope_new
+# X bar 
+x_bar_new <- function() {
+  sum <- 0
+  for (i in 1:length(df_new$valor)) {
+    sum = sum + df_new$valor[i]    
+  }
+  sum/length(df_new$valor)
+}
+# Y bar 
+y_bar_new <- function() {
+  sum <- 0
+  for (i in 1:length(df_new$renta)) {
+    sum = sum + df_new$renta[i]    
+  }
+  sum/length(df_new$renta)
+}
+# Grafica de dispersion y recta de regresion.
+# See ggplot2 documentation: http://ggplot2.tidyverse.org/index.html.
+scatter_plot_new <- ggplot(data = df_new, mapping = aes(x = valor, y = renta)) + geom_point(color = moradito) +
+  geom_hline(aes(yintercept = y_bar_new())) + 
+  geom_vline(aes(xintercept = x_bar_new())) +
+  stat_function(fun = mean_given_x_new, size = 1) +
+  labs(x = "Valor catastral*", y = "Renta*") +
+  ggtitle("Renta* vs. Valor catastral*") + 
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_new
+```
+
+El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ está dado por 
+$$  \hat{\beta_0}^*=`r intercept_new` $$
+El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora, sin tomar en cuenta las observaciones en las que la respuesta es $0$, está dado por
+$$  \hat{\beta_1}^*=`r slope_new` $$
+
+A continuación se muestran los residuales sin tomar en cuenta las observaciones en las que la respuesta es $0$:
+
+```{r residuales new, echo=FALSE, fig.width=3, fig.height=3, fig.align='center'}
+residuales_new <- linearModel_new$residuals
+df_residuals_new <- data.frame(df_new$valor, residuales_new)
+names(df_residuals_new) <- c("valor", "residuales")
+
+scatter_plot_residuals_new <- ggplot(data = df_residuals_new, mapping = aes(x = valor, y = residuales)) +
+  geom_point(color = moradito) +
+  geom_hline(aes(yintercept = 0)) +
+  labs(x = "Valor catastral*", y = "Residual*") +
+  ggtitle("Residuales*") +
+  theme(plot.title = element_text(hjust = 0.5, color = "#666666", face = "bold", size = 12))
+scatter_plot_residuals_new
+```
+
+```{r p-value new, echo = FALSE}
+p_value_new <- lmp(linearModel_new)
+```
+
+La significancia de la regresión ($valor$ $p$) del estadístico $F$, sin tomar en cuenta las observaciones en las que la respuesta es $0$, está dada por
+$$  \alpha^* = `r p_value_new` $$
+
+Lo nuevos estadísticos que se obtienen después de excluir las observaciones en las que la respuesta ($renta$) es $0$ son muy diferentes a los anteriores, por lo que no se podrían considerar estadísticamente iguales a los anteriores.
+
+En el primer caso, el coeficiente de determinación está dado por 
+
+$$ R = `r summary(linearModel)$r.squared`  $$,
+
+y en el segundo caso en el que se eliminaron las observaciones en las que la variable de repsuesta ($renta$) es cero, se obtiene el siguiente coeficiente de determinación:
+
+$$ R^* = `r summary(linearModel_new)$r.squared`  $$,
+
+
