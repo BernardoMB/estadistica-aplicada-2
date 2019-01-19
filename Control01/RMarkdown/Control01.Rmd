@@ -1,6 +1,6 @@
 ---
 title: "Control 1"
-author: "Bernardo Mondragón Brozon, Sebastian Gonzalez"
+author: "Sotip: 143743, 144245"
 date: "August 28, 2018"
 output:
   pdf_document: default
@@ -127,9 +127,9 @@ grid.arrange(
 La información se puede agrupar de acuerdo al tipo de profesion. A continuación se muestra un resumen de la información agrupada:
 
 
-\textbf{Educación}
+<!-- \textbf{Educación} -->
 
-```{r educacion_g, echo = FALSE}
+```{r educacion_g, echo = FALSE, include = FALSE}
 educacion_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
 educacion_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
 educacion_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$educacion)), check.names = FALSE, stringsAsFactors = FALSE)
@@ -139,9 +139,9 @@ names(educacion_summaries) <- c("NA", "bc", "prof", "wc")
 kable(educacion_summaries, caption = "Resumen de educación por tipo de ocupación.")
 ```
 
-\textbf{Ingreso}
+<!-- \textbf{Ingreso} -->
 
-```{r ingreso_g, echo = FALSE}
+```{r ingreso_g, echo = FALSE, include = FALSE}
 ingreso_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
 ingreso_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
 ingreso_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$ingreso)), check.names = FALSE, stringsAsFactors = FALSE)
@@ -151,9 +151,9 @@ names(ingreso_summaries) <- c("NA", "bc", "prof", "wc")
 kable(ingreso_summaries, caption = "Resumen de ingreso por tipo de ocupación.")
 ```
 
-\textbf{Mujeres}
+<!-- \textbf{Mujeres} -->
 
-```{r mujeres_g, echo = FALSE}
+```{r mujeres_g, echo = FALSE, include = FALSE}
 mujeres_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
 mujeres_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
 mujeres_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$mujeres)), check.names = FALSE, stringsAsFactors = FALSE)
@@ -163,9 +163,9 @@ names(mujeres_summaries) <- c("NA", "bc", "prof", "wc")
 kable(mujeres_summaries, caption = "Resumen de mujeres por tipo de ocupación.")
 ```
 
-\textbf{Prestigio}
+<!-- \textbf{Prestigio} -->
 
-```{r prestigio_g, echo = FALSE}
+```{r prestigio_g, echo = FALSE, include = FALSE}
 prestigio_na_summary <-data.frame(unclass(summary(df[df$tipo == "<NA>", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
 prestigio_bc_summary <-data.frame(unclass(summary(df[df$tipo == "bc", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)
 prestigio_prof_summary <-data.frame(unclass(summary(df[df$tipo == "prof", ]$prestigio)), check.names = FALSE, stringsAsFactors = FALSE)

@@ -1,6 +1,6 @@
 ---
 title: "Control 2"
-author: "Bernardo Mondragón Brozon, Sebastián González Arroyo"
+author: "Sotip"
 date: "August 28, 2018"
 output:
   pdf_document: default
@@ -30,7 +30,7 @@ moradito <- "#be58a0"
 azulito <- "#00e6e6"
 ```
 
-Modelo de regresión lineal simple ajustado por mínimos cuadrados para la respuesta $renta$, con el $valor$ $catastral$ como variable independiente:
+Modelo de regresi?n lineal simple ajustado por m?nimos cuadrados para la respuesta $renta$, con el $valor$ $catastral$ como variable independiente:
 
 ```{r renta vs. valor catastral, echo = FALSE, fig.width=3, fig.height=3, fig.align='center'}
 # Leer la informaciÃ³n
@@ -71,12 +71,12 @@ plot <- scatter_plot + y_bar_plot + x_bar_plot + ols_plot + labels + ggtitle("Re
 plot
 ```
 
-El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ está dado por 
+El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ est? dado por 
 $$  \hat{\beta_0}=`r intercept` $$
-El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora está dado por
+El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora est? dado por
 $$  \hat{\beta_1}=`r slope` $$
 
-A continuación se muestran los residuales:
+A continuaci?n se muestran los residuales:
 
 ```{r residuales, echo=FALSE, fig.width=3, fig.height=3, fig.align='center'}
 residuales <- linearModel$residuals
@@ -104,7 +104,7 @@ lmp <- function (modelobject) {
 p_value <- lmp(linearModel)
 ```
 
-La significancia de la regresión ($valor$ $p$) del estadístico $F$ está dada por
+La significancia de la regresi?n ($valor$ $p$) del estad?stico $F$ est? dada por
 $$  \alpha = `r p_value` $$
 
 Repitiendo el procedimiento anterior sin incluir las observaciones en las que la respuesta $renta$ es igual a $0$ se obtiene lo siguiente:
@@ -149,12 +149,12 @@ scatter_plot_new <- ggplot(data = df_new, mapping = aes(x = valor, y = renta)) +
 scatter_plot_new
 ```
 
-El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ está dado por 
+El estimador de la ordenada a la origen, o bien, el estimador de la repsuesta media cuando la variable regresora es $0$ est? dado por 
 $$  \hat{\beta_0}^*=`r intercept_new` $$
-El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora, sin tomar en cuenta las observaciones en las que la respuesta es $0$, está dado por
+El estimador del cambio en la respuesta media como resultado de un cambio en una unidad en la variable regresora, sin tomar en cuenta las observaciones en las que la respuesta es $0$, est? dado por
 $$  \hat{\beta_1}^*=`r slope_new` $$
 
-A continuación se muestran los residuales sin tomar en cuenta las observaciones en las que la respuesta es $0$:
+A continuaci?n se muestran los residuales sin tomar en cuenta las observaciones en las que la respuesta es $0$:
 
 ```{r residuales new, echo=FALSE, fig.width=3, fig.height=3, fig.align='center'}
 residuales_new <- linearModel_new$residuals
@@ -174,16 +174,16 @@ scatter_plot_residuals_new
 p_value_new <- lmp(linearModel_new)
 ```
 
-La significancia de la regresión ($valor$ $p$) del estadístico $F$, sin tomar en cuenta las observaciones en las que la respuesta es $0$, está dada por
+La significancia de la regresi?n ($valor$ $p$) del estad?stico $F$, sin tomar en cuenta las observaciones en las que la respuesta es $0$, est? dada por
 $$  \alpha^* = `r p_value_new` $$
 
-Lo nuevos estadísticos que se obtienen después de excluir las observaciones en las que la respuesta ($renta$) es $0$ son muy diferentes a los anteriores, por lo que no se podrían considerar estadísticamente iguales a los anteriores.
+Lo nuevos estad?sticos que se obtienen despu?s de excluir las observaciones en las que la respuesta ($renta$) es $0$ son muy diferentes a los anteriores, por lo que no se podr?an considerar estad?sticamente iguales a los anteriores.
 
-En el primer caso, el coeficiente de determinación está dado por 
+En el primer caso, el coeficiente de determinaci?n est? dado por 
 
 $$ R = `r summary(linearModel)$r.squared`  $$,
 
-y en el segundo caso en el que se eliminaron las observaciones en las que la variable de repsuesta ($renta$) es cero, se obtiene el siguiente coeficiente de determinación:
+y en el segundo caso en el que se eliminaron las observaciones en las que la variable de repsuesta ($renta$) es cero, se obtiene el siguiente coeficiente de determinaci?n:
 
 $$ R^* = `r summary(linearModel_new)$r.squared`  $$,
 
